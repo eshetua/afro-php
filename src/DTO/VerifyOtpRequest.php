@@ -29,9 +29,8 @@ class VerifyOtpRequest
 
         $this->validatePhoneNumber($data['to']);
 
-        if (!preg_match('/^\d{4,8}$/', $data['code'])) {
-            throw new ValidationException('OTP code must be 4-8 digits');
-        }
+        // Remove strict numeric validation and allow any OTP format
+        $this->validateOtpCode($data['code']);
     }
 
     private function validatePhoneNumber(string $phone): void
@@ -40,6 +39,21 @@ class VerifyOtpRequest
         
         if (!preg_match('/^(\+\d+|\d+)$/', $cleanedPhone)) {
             throw new ValidationException('Phone number must be in E.164 format or valid digits');
+        }
+    }
+
+    private function validateOtpCode(string $code): void
+    {
+        // Remove any whitespace
+        $cleanedCode = preg_replace('/\s+/', '', $code);
+        
+        // Check if code is not empty after cleaning
+        if (empty($cleanedCode)) {
+            throw new ValidationException('OTP code cannot be empty');
+        }
+
+        if (strlen($cleanedCode) < 4) {
+            throw new ValidationException('OTP code must be at least 4 character');
         }
     }
 

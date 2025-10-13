@@ -13,7 +13,7 @@ class BulkRecipient
     {
         $this->validate($data);
         
-        $this->to = $data['to'];
+    $this->to = $data['to'];
         $this->message = $data['message'];
     }
 

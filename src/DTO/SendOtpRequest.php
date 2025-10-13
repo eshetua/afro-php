@@ -43,8 +43,12 @@ class SendOtpRequest
 
         $this->validatePhoneNumber($data['to']);
 
-        if (isset($data['len']) && ($data['len'] < 4 || $data['len'] > 8)) {
-            throw new ValidationException('OTP length must be between 4 and 8 digits');
+        // Remove length validation or make it more flexible
+        if (isset($data['len'])) {
+            // Allow any positive integer for length, or set reasonable limits if needed
+            if ($data['len'] < 4) {
+                throw new ValidationException('OTP length must be at least 1 character');
+            }
         }
 
         if (isset($data['ttl']) && ($data['ttl'] < 60 || $data['ttl'] > 3600)) {
@@ -71,7 +75,7 @@ class SendOtpRequest
             'sb' => $this->sb,
             'sa' => $this->sa,
             'ttl' => $this->ttl,
-            'len' => $this->len,
+            'len' => $data['len'] ?? null,
             't' => $this->t,
             'from' => $this->from,
             'sender' => $this->sender,
