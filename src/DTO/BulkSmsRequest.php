@@ -3,9 +3,12 @@
 namespace Afromessage\Laravel\DTO;
 
 use Afromessage\Laravel\Exceptions\ValidationException;
+use Afromessage\Laravel\Validation\ValidatesAfromessageData;
 
 class BulkSmsRequest
 {
+    use ValidatesAfromessageData;
+
     public array $to;
     public ?string $message = null;
     public ?string $from = null;
@@ -29,9 +32,7 @@ class BulkSmsRequest
 
     private function validate(array $data): void
     {
-        if (empty($data['to']) || !is_array($data['to']) || count($data['to']) < 2) {
-            throw new ValidationException('Bulk SMS requires at least 2 recipients');
-        }
+        $this->validateArrayWithMinCount($data, 'to', 2, 'Bulk SMS requires at least 2 recipients');
 
         $firstRecipient = $data['to'][0];
         
@@ -45,19 +46,7 @@ class BulkSmsRequest
             if (empty($data['message'])) {
                 throw new ValidationException('Message is required for uniform bulk SMS');
             }
-            
-            foreach ($data['to'] as $phone) {
-                $this->validatePhoneNumber($phone);
-            }
-        }
-    }
-
-    private function validatePhoneNumber(string $phone): void
-    {
-        $cleanedPhone = preg_replace('/\s+/', '', $phone);
-        
-        if (!preg_match('/^(\+\d+|\d+)$/', $cleanedPhone)) {
-            throw new ValidationException('Phone number must be in E.164 format or valid digits');
+            $this->validatePhoneNumbers($data['to']);
         }
     }
 

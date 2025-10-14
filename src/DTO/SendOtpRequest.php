@@ -3,9 +3,12 @@
 namespace Afromessage\Laravel\DTO;
 
 use Afromessage\Laravel\Exceptions\ValidationException;
+use Afromessage\Laravel\Validation\ValidatesAfromessageData;
 
 class SendOtpRequest
 {
+    use ValidatesAfromessageData;
+
     public string $to;
     public ?string $pr = null;
     public ?string $ps = null;
@@ -37,31 +40,15 @@ class SendOtpRequest
 
     private function validate(array $data): void
     {
-        if (empty($data['to'])) {
-            throw new ValidationException('Recipient phone number is required');
-        }
-
+        $this->validateRequiredFields($data, ['to']);
         $this->validatePhoneNumber($data['to']);
 
-        // Remove length validation or make it more flexible
-        if (isset($data['len'])) {
-            // Allow any positive integer for length, or set reasonable limits if needed
-            if ($data['len'] < 4) {
-                throw new ValidationException('OTP length must be at least 1 character');
-            }
+        if (isset($data['len']) && $data['len'] < 1) {
+            throw new ValidationException('OTP length must be at least 1 character');
         }
 
-        if (isset($data['ttl']) && ($data['ttl'] < 60 || $data['ttl'] > 3600)) {
-            throw new ValidationException('TTL must be between 60 and 3600 seconds');
-        }
-    }
-
-    private function validatePhoneNumber(string $phone): void
-    {
-        $cleanedPhone = preg_replace('/\s+/', '', $phone);
-        
-        if (!preg_match('/^(\+\d+|\d+)$/', $cleanedPhone)) {
-            throw new ValidationException('Phone number must be in E.164 format or valid digits');
+        if (isset($data['ttl'])) {
+            $this->validateNumericRange($data['ttl'], 60, 3600, 'TTL');
         }
     }
 
@@ -75,7 +62,7 @@ class SendOtpRequest
             'sb' => $this->sb,
             'sa' => $this->sa,
             'ttl' => $this->ttl,
-            'len' => $data['len'] ?? null,
+            'len' => $this->len,
             't' => $this->t,
             'from' => $this->from,
             'sender' => $this->sender,

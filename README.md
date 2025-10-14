@@ -246,7 +246,7 @@ try {
 ## Phone Numbers:
 Must be in E.164 format or valid digits
 ## Messages:
-Minimum 1 character, maximum 1600 characters
+Minimum 1 characterk
 ## OTP Codes:
 Flexible format: Can be numeric, alphanumeric, or contain special characters.
 Flexible length: No fixed limits (configurable if needed).

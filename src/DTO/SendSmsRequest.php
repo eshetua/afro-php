@@ -3,9 +3,12 @@
 namespace Afromessage\Laravel\DTO;
 
 use Afromessage\Laravel\Exceptions\ValidationException;
+use Afromessage\Laravel\Validation\ValidatesAfromessageData;
 
 class SendSmsRequest
 {
+    use ValidatesAfromessageData;
+
     public string|array $to;
     public string $message;
     public ?string $callback = null;
@@ -27,33 +30,12 @@ class SendSmsRequest
 
     private function validate(array $data): void
     {
-        if (empty($data['to'])) {
-            throw new ValidationException('Recipient phone number is required');
-        }
-
-        if (empty($data['message'])) {
-            throw new ValidationException('Message is required');
-        }
-
-        if (strlen($data['message']) > 1600) {
-            throw new ValidationException('Message must not exceed 1600 characters');
-        }
-
+        $this->validateRequiredFields($data, ['to', 'message']);
+        
         if (is_array($data['to'])) {
-            foreach ($data['to'] as $phone) {
-                $this->validatePhoneNumber($phone);
-            }
+            $this->validatePhoneNumbers($data['to']);
         } else {
             $this->validatePhoneNumber($data['to']);
-        }
-    }
-
-    private function validatePhoneNumber(string $phone): void
-    {
-        $cleanedPhone = preg_replace('/\s+/', '', $phone);
-        
-        if (!preg_match('/^(\+\d+|\d+)$/', $cleanedPhone)) {
-            throw new ValidationException('Phone number must be in E.164 format or valid digits');
         }
     }
 
