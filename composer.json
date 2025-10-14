@@ -1,7 +1,15 @@
 {
     "name": "afromessage/afromessage-laravel",
     "description": "Laravel SDK for AfroMessage SMS and OTP services",
+    "keywords": ["laravel", "sms", "otp", "afromessage", "ethiopia", "africa"],
     "type": "library",
+    "license": "MIT",
+        "authors": [
+        {
+            "name": "Yonas Fikadie",
+            "email": "yonasfikadie8989@gmail.com"
+        }
+    ],
     "require": {
         "php": "^8.0",
         "guzzlehttp/guzzle": "^7.10",
@@ -38,3 +46,5 @@
     "minimum-stability": "dev",
     "prefer-stable": true
 }
+
+
