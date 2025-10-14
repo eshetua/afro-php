@@ -86,7 +86,7 @@ function main() {
         // 2. Test bulk SMS (uniform message)
         echo "\n2. Testing bulk SMS (uniform message)...\n";
         $bulkRequest = new BulkSmsRequest([
-            'to' => [$testPhone, "+2519xxxxxxxx"], // Use your second test number
+            'to' => [$testPhone, "+251xxxxxxxx"], // Use your second test number
             'message' => "Bulk SMS test via Laravel SDK (Real test) - Hello everyone!",
             'from' => $senderId,
             'sender' => $senderName,
@@ -104,7 +104,7 @@ function main() {
                     'message' => "Personalized: Hello from Laravel SDK! This message is just for you."
                 ]),
                 new BulkRecipient([
-                    'to' => "+251991005141", 
+                    'to' => "+251xxxxxxxx", 
                     'message' => "Personalized: Hello from Laravel SDK! This is a different message for you."
                 ])
             ],
