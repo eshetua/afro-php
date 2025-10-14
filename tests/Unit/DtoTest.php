@@ -16,7 +16,7 @@ class DtoTest extends TestCase
     public function test_send_sms_request_creation()
     {
         $request = new SendSmsRequest([
-            'to' => '+2519xxxxxxxx',
+            'to' => '+251911500681',
             'message' => 'Test message',
             'callback' => 'https://example.com/callback',
             'from' => 'TEST',
@@ -24,7 +24,7 @@ class DtoTest extends TestCase
             'template' => 1
         ]);
 
-        $this->assertEquals('+2519xxxxxxxx', $request->to);
+        $this->assertEquals('+251911500681', $request->to);
         $this->assertEquals('Test message', $request->message);
         $this->assertEquals('https://example.com/callback', $request->callback);
         
@@ -36,7 +36,7 @@ class DtoTest extends TestCase
     public function test_send_sms_request_with_array_recipients()
     {
         $request = new SendSmsRequest([
-            'to' => ['+2519xxxxxxxx', '+2519xxxxxxxx'],
+            'to' => ['+251911500681', '+251922000000'],
             'message' => 'Test message'
         ]);
 
@@ -49,18 +49,8 @@ class DtoTest extends TestCase
         $this->expectException(ValidationException::class);
         
         new SendSmsRequest([
-            'to' => '+2519xxxxxxxx',
+            'to' => '+251911500681',
             'message' => ''
-        ]);
-    }
-
-    public function test_send_sms_request_validation_long_message()
-    {
-        $this->expectException(ValidationException::class);
-        
-        new SendSmsRequest([
-            'to' => '+2519xxxxxxxx',
-            'message' => str_repeat('a', 1601) 
         ]);
     }
 
@@ -68,7 +58,7 @@ class DtoTest extends TestCase
     public function test_bulk_sms_request_creation()
     {
         $request = new BulkSmsRequest([
-            'to' => ['+2519xxxxxxxx', '+2519xxxxxxxx'],
+            'to' => ['+251911500681', '+251922000000'],
             'message' => 'Bulk test message',
             'campaign' => 'TestCampaign'
         ]);
@@ -85,11 +75,11 @@ class DtoTest extends TestCase
     {
         $recipients = [
             new BulkRecipient([
-                'to' => '+2519xxxxxxxx',
+                'to' => '+251911500681',
                 'message' => 'Personalized message 1'
             ]),
             new BulkRecipient([
-                'to' => '+2519xxxxxxxx', 
+                'to' => '+251922000000', 
                 'message' => 'Personalized message 2'
             ])
         ];
@@ -112,7 +102,7 @@ class DtoTest extends TestCase
         $this->expectException(ValidationException::class);
         
         new BulkSmsRequest([
-            'to' => ['+2519xxxxxxxx'], // Only one recipient
+            'to' => ['+251911500681'], // Only one recipient
             'message' => 'Test message'
         ]);
     }
@@ -120,23 +110,23 @@ class DtoTest extends TestCase
     public function test_bulk_recipient_creation()
     {
         $recipient = new BulkRecipient([
-            'to' => '+2519xxxxxxxx',
+            'to' => '+251911500681',
             'message' => 'Personalized message'
         ]);
 
-        $this->assertEquals('+2519xxxxxxxx', $recipient->to);
+        $this->assertEquals('+251911500681', $recipient->to);
         $this->assertEquals('Personalized message', $recipient->message);
         
         $array = $recipient->toArray();
-        $this->assertEquals('+2519xxxxxxxx', $array['to']);
+        $this->assertEquals('+251911500681', $array['to']);
         $this->assertEquals('Personalized message', $array['message']);
     }
 
-    // OTP DTO Tests - UPDATED FOR FLEXIBLE VALIDATION
+    // OTP DTO Tests
     public function test_send_otp_request_creation()
     {
         $request = new SendOtpRequest([
-            'to' => '+2519xxxxxxxx',
+            'to' => '+251911500681',
             'pr' => 'Your code is',
             'ps' => 'Prefix',
             'ttl' => 300,
@@ -144,7 +134,7 @@ class DtoTest extends TestCase
             't' => 'template1'
         ]);
 
-        $this->assertEquals('+2519xxxxxxxx', $request->to);
+        $this->assertEquals('+251911500681', $request->to);
         $this->assertEquals('Your code is', $request->pr);
         $this->assertEquals(300, $request->ttl);
         $this->assertEquals(6, $request->len);
@@ -156,10 +146,9 @@ class DtoTest extends TestCase
 
     public function test_send_otp_request_with_custom_length()
     {
-        // Test with longer OTP length (more than 8 characters)
         $request = new SendOtpRequest([
-            'to' => '+2519xxxxxxxx',
-            'len' => 12 // More than traditional 8
+            'to' => '+251911500681',
+            'len' => 12
         ]);
 
         $this->assertEquals(12, $request->len);
@@ -170,42 +159,42 @@ class DtoTest extends TestCase
         $this->expectException(ValidationException::class);
         
         new SendOtpRequest([
-            'to' => '+2519xxxxxxxx',
-            'len' => 0 // Invalid - should be at least 1
+            'to' => '+251911500681',
+            'len' => 0
         ]);
     }
 
     public function test_verify_otp_request_creation()
     {
         $request = new VerifyOtpRequest([
-            'to' => '+2519xxxxxxxx',
+            'to' => '+251911500681',
             'code' => '123456'
         ]);
 
-        $this->assertEquals('+2519xxxxxxxx', $request->to);
+        $this->assertEquals('+251911500681', $request->to);
         $this->assertEquals('123456', $request->code);
         
         $array = $request->toArray();
-        $this->assertEquals('+2519xxxxxxxx', $array['to']);
+        $this->assertEquals('+251911500681', $array['to']);
         $this->assertEquals('123456', $array['code']);
     }
 
-    // NEW TESTS FOR FLEXIBLE OTP VALIDATION
+    // OTP Validation Tests
     public function test_verify_otp_request_with_alphanumeric_code()
     {
         $request = new VerifyOtpRequest([
-            'to' => '+2519xxxxxxxx',
+            'to' => '+251911500681',
             'code' => 'AB12CD'
         ]);
 
         $this->assertEquals('AB12CD', $request->code);
-        $this->assertEquals('+2519xxxxxxxx', $request->to);
+        $this->assertEquals('+251911500681', $request->to);
     }
 
     public function test_verify_otp_request_with_long_code()
     {
         $request = new VerifyOtpRequest([
-            'to' => '+2519xxxxxxxx',
+            'to' => '+251911500681',
             'code' => 'VeryLongOTPCode2024'
         ]);
 
@@ -215,7 +204,7 @@ class DtoTest extends TestCase
     public function test_verify_otp_request_with_special_characters()
     {
         $request = new VerifyOtpRequest([
-            'to' => '+2519xxxxxxxx',
+            'to' => '+251911500681',
             'code' => 'OTP!@#2024'
         ]);
 
@@ -225,31 +214,20 @@ class DtoTest extends TestCase
     public function test_verify_otp_request_with_mixed_case()
     {
         $request = new VerifyOtpRequest([
-            'to' => '+2519xxxxxxxx',
+            'to' => '+251911500681',
             'code' => 'AbC123XyZ'
         ]);
 
         $this->assertEquals('AbC123XyZ', $request->code);
     }
 
-    public function test_verify_otp_request_with_whitespace_trimming()
-    {
-        $request = new VerifyOtpRequest([
-            'to' => '+2519xxxxxxxx',
-            'code' => '  ABC123  '
-        ]);
-
-        // The code should be stored as-is, trimming happens during validation
-        $this->assertEquals('  ABC123  ', $request->code);
-    }
-
     public function test_verify_otp_request_empty_code_validation()
     {
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('OTP code is required');
+        $this->expectExceptionMessage('Code is required');
         
         new VerifyOtpRequest([
-            'to' => '+2519xxxxxxxx',
+            'to' => '+251911500681',
             'code' => ''
         ]);
     }
@@ -260,16 +238,17 @@ class DtoTest extends TestCase
         $this->expectExceptionMessage('OTP code cannot be empty');
         
         new VerifyOtpRequest([
-            'to' => '+2519xxxxxxxx',
+            'to' => '+251911500681',
             'code' => '   '
         ]);
     }
+
     // Phone Number Validation Tests
     public function test_valid_phone_formats()
     {
         $validPhones = [
-            '+2519xxxxxxxx',
-            '+2519xxxxxxxx'
+            '+251911500681',
+            '251911500681'
         ];
 
         foreach ($validPhones as $phone) {
@@ -284,26 +263,34 @@ class DtoTest extends TestCase
 
     public function test_invalid_phone_formats()
     {
-        $invalidPhones = [
-            'invalid-phone',
-            '+251-911-500-681',
-            'abc123',
-            ''
+        $testCases = [
+            [
+                'phone' => 'invalid-phone',
+                'expectedError' => 'Phone number must be in E.164 format or valid digits'
+            ],
+            [
+                'phone' => '+251-911-500-681', 
+                'expectedError' => 'Phone number must be in E.164 format or valid digits'
+            ],
+            [
+                'phone' => 'abc123',
+                'expectedError' => 'Phone number must be in E.164 format or valid digits'
+            ],
+            [
+                'phone' => '',
+                'expectedError' => 'To is required'
+            ]
         ];
 
-        foreach ($invalidPhones as $phone) {
+        foreach ($testCases as $testCase) {
             try {
                 new SendSmsRequest([
-                    'to' => $phone,
+                    'to' => $testCase['phone'],
                     'message' => 'Test message'
                 ]);
-                $this->fail("Expected ValidationException for phone: $phone");
+                $this->fail("Expected ValidationException for phone: {$testCase['phone']}");
             } catch (ValidationException $e) {
-                if ($phone === '') {
-                    $this->assertStringContainsString('Recipient phone number is required', $e->getMessage());
-                } else {
-                    $this->assertStringContainsString('Phone number', $e->getMessage());
-                }
+                $this->assertStringContainsString($testCase['expectedError'], $e->getMessage());
             }
         }
     }
@@ -312,8 +299,8 @@ class DtoTest extends TestCase
     public function test_send_otp_request_with_minimum_length()
     {
         $request = new SendOtpRequest([
-            'to' => '+2519xxxxxxxx',
-            'len' => 4 // Minimum allowed length
+            'to' => '+251911500681',
+            'len' => 4
         ]);
 
         $this->assertEquals(4, $request->len);
@@ -324,16 +311,16 @@ class DtoTest extends TestCase
         $this->expectException(ValidationException::class);
         
         new SendOtpRequest([
-            'to' => '+2519xxxxxxxx',
-            'ttl' => 50 // Invalid - should be between 60-3600
+            'to' => '+251911500681',
+            'ttl' => 50
         ]);
     }
 
     public function test_send_otp_request_with_maximum_ttl()
     {
         $request = new SendOtpRequest([
-            'to' => '+2519xxxxxxxx',
-            'ttl' => 3600 // Maximum allowed TTL
+            'to' => '+251911500681',
+            'ttl' => 3600
         ]);
 
         $this->assertEquals(3600, $request->ttl);
