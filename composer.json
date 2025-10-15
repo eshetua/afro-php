@@ -1,5 +1,5 @@
 {
-    "name": "afromessage/afromessage-laravel",
+    "name": "afromessage-laravel",
     "description": "Laravel SDK for AfroMessage SMS and OTP services",
     "keywords": ["laravel", "sms", "otp", "afromessage", "ethiopia", "africa"],
     "type": "library",
