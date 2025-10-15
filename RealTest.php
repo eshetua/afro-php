@@ -152,7 +152,7 @@ try {
     echo "❌ Failed to run test: " . $e->getMessage() . "\n";
     echo "\n💡 Make sure you have a .env file with these variables:\n";
     echo "   AFROMESSAGE_TOKEN=your_api_token_here\n";
-    echo "   TEST_PHONE=+251911500681\n";
+    echo "   TEST_PHONE=251xxxxxxxxxx+\n";
     echo "   SENDER_ID=TEST\n";
     echo "   SENDER_NAME=TestSender\n";
     echo "\nYour .env file should be in: " . __DIR__ . "/.env\n";

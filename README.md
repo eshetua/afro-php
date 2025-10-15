@@ -36,7 +36,7 @@ use Afromessage\Laravel\DTO\VerifyOtpRequest;
 
 // --- Single SMS ---
 $smsRequest = new SendSmsRequest([
-    'to' => '+251911500681',
+    'to' => '+251xxxxxxxxxx',
     'message' => 'Hello from AfroMessage Laravel SDK!',
     'from' => 'TEST',
     'sender' => 'TestSender'
@@ -46,7 +46,7 @@ $response = AfroMessage::sms()->send($smsRequest);
 
 // --- Bulk SMS ---
 $bulkRequest = new BulkSmsRequest([
-    'to' => ['+251911500681', '+251922000000'],
+    'to' => ['+251xxxxxxxxxx', '+251xxxxxxxxxx'],
     'message' => 'Hello, bulk users!',
     'from' => 'TEST',
     'sender' => 'TestSender',
@@ -59,11 +59,11 @@ $bulkResponse = AfroMessage::sms()->bulkSend($bulkRequest);
 $personalizedRequest = new BulkSmsRequest([
     'to' => [
         new BulkRecipient([
-            'to' => '+251911500681', 
+            'to' => '+251xxxxxxxxxx', 
             'message' => 'Hi Yonas!'
         ]),
         new BulkRecipient([
-            'to' => '+251922000000', 
+            'to' => '+251xxxxxxxxxx', 
             'message' => 'Hi Eshetu!'
         ])
     ],
@@ -76,7 +76,7 @@ $personalizedResponse = AfroMessage::sms()->bulkSend($personalizedRequest);
 
 // --- OTP Challenge ---
 $otpRequest = new SendOtpRequest([
-    'to' => '+251911500681',
+    'to' => '+251xxxxxxxxxx',
     'pr' => 'Your code'
 ]);
 
@@ -84,7 +84,7 @@ $otpResponse = AfroMessage::otp()->send($otpRequest);
 
 // --- Verify OTP ---
 $verifyRequest = new VerifyOtpRequest([
-    'to' => '+251911500681',
+    'to' => '+251xxxxxxxxxx',
     'code' => '123456'
 ]);
 
@@ -99,7 +99,7 @@ class SmsController extends Controller
     public function sendSms(AfroMessageInterface $afroMessage)
     {
         $request = new SendSmsRequest([
-            'to' => '+251911500681',
+            'to' => '+251xxxxxxxxxx',
             'message' => 'Hello from controller!'
         ]);
 
@@ -131,7 +131,7 @@ $response = app('afromessage')->sms()->send($smsRequest);
 use Afromessage\Laravel\DTO\SendSmsRequest;
 
 $request = new SendSmsRequest([
-    'to' => '+251911500681',           // Required
+    'to' => '+251xxxxxxxxxx',           // Required
     'message' => 'Hello World!',       // Required
     'from' => 'TEST',                  // Optional
     'sender' => 'TestSender',          // Optional
@@ -146,7 +146,7 @@ $response = AfroMessage::sms()->send($request);
 use Afromessage\Laravel\DTO\BulkSmsRequest;
 
 $request = new BulkSmsRequest([
-    'to' => ['+251911500681', '+251922000000'], // Required (min 2 numbers)
+    'to' => ['+251xxxxxxxxxx', '+251xxxxxxxxxx'], // Required (min 2 numbers)
     'message' => 'Hello everyone!',             // Required
     'from' => 'TEST',                           // Optional
     'sender' => 'TestSender',                   // Optional
@@ -165,11 +165,11 @@ use Afromessage\Laravel\DTO\BulkRecipient;
 $request = new BulkSmsRequest([
     'to' => [
         new BulkRecipient([
-            'to' => '+251911500681',
+            'to' => '+251xxxxxxxxxx',
             'message' => 'Hi Yonas, welcome!'
         ]),
         new BulkRecipient([
-            'to' => '+251922000000', 
+            'to' => '+251xxxxxxxxxx', 
             'message' => 'Hi Eshetu, welcome!'
         ])
     ],
@@ -185,7 +185,7 @@ $response = AfroMessage::sms()->bulkSend($request);
 use Afromessage\Laravel\DTO\SendOtpRequest;
 
 $request = new SendOtpRequest([
-    'to' => '+251911500681',      // Required
+    'to' => '+251xxxxxxxxxx',      // Required
     'pr' => 'Your code is',       // Optional - prefix
     'ps' => 'suffix',             // Optional - suffix  
     'ttl' => 300,                 // Optional - time to live (60-3600 seconds)
@@ -202,19 +202,19 @@ use Afromessage\Laravel\DTO\VerifyOtpRequest;
 
 // Traditional numeric OTP
 $request = new VerifyOtpRequest([
-    'to' => '+251911500681',
+    'to' => '+251xxxxxxxxxx',
     'code' => '123456'
 ]);
 
 // Alphanumeric OTP
 $request = new VerifyOtpRequest([
-    'to' => '+251911500681',
+    'to' => '+251xxxxxxxxxx',
     'code' => 'AB12CD'
 ]);
 
 // Long OTP with special characters
 $request = new VerifyOtpRequest([
-    'to' => '+251911500681',
+    'to' => '+251xxxxxxxxxx',
     'code' => 'MySecureOTP!2024'
 ]);
 
@@ -272,7 +272,7 @@ vendor/bin/phpunit tests/Feature/SmsTest.php
 ## Create a .env file in your package root:
 ```bash
 AFROMESSAGE_TOKEN=your_actual_token_here
-TEST_PHONE=+251911500681
+TEST_PHONE=+251xxxxxxxxxx
 SENDER_ID=TEST
 SENDER_NAME=TestSender
 ```

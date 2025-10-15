@@ -32,7 +32,7 @@ class OtpTest extends TestCase
             'acknowledge' => 'success',
             'response' => [
                 'code' => '202',
-                'to' => '+251911500681',
+                'to' => '+251xxxxxxxxxx',
                 'request' => 'a1b2c3d4-e5f6-7890-abcd-ef1234567890'
             ]
         ];
@@ -44,7 +44,7 @@ class OtpTest extends TestCase
         $property->setValue($service, $this->createMockClient([$mockResponse]));
 
         $request = new SendOtpRequest([
-            'to' => '+251911500681',
+            'to' => '+251xxxxxxxxxx',
             'pr' => 'Your code'
         ]);
 
@@ -52,7 +52,7 @@ class OtpTest extends TestCase
         
         $this->assertEquals('success', $response['acknowledge']);
         $this->assertEquals('202', $response['response']['code']);
-        $this->assertEquals('+251911500681', $response['response']['to']);
+        $this->assertEquals('+251xxxxxxxxxx', $response['response']['to']);
     }
 
     public function test_verify_otp()
@@ -72,7 +72,7 @@ class OtpTest extends TestCase
         $property->setValue($service, $this->createMockClient([$mockResponse]));
 
         $request = new VerifyOtpRequest([
-            'to' => '+251911500681',
+            'to' => '+251xxxxxxxxxx',
             'code' => '123456'
         ]);
 
@@ -97,7 +97,7 @@ class OtpTest extends TestCase
         $this->expectException(ValidationException::class);
         
         new SendOtpRequest([
-            'to' => '+251911500681',
+            'to' => '+251xxxxxxxxxx',
             'len' => 0
         ]);
     }
@@ -107,7 +107,7 @@ class OtpTest extends TestCase
         $this->expectException(ValidationException::class);
         
         new SendOtpRequest([
-            'to' => '+251911500681',
+            'to' => '+251xxxxxxxxxx',
             'ttl' => 50
         ]);
     }

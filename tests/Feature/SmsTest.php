@@ -44,7 +44,7 @@ class SmsTest extends TestCase
         $property->setValue($service, $this->createMockClient([$mockResponse]));
 
         $request = new SendSmsRequest([
-            'to' => '+251911500681',
+            'to' => '+251xxxxxxxxxx',
             'message' => 'Test message'
         ]);
 
@@ -71,7 +71,7 @@ class SmsTest extends TestCase
         $property->setValue($service, $this->createMockClient([$mockResponse]));
 
         $request = new BulkSmsRequest([
-            'to' => ['+251911500681', '+251922000000'],
+            'to' => ['+251xxxxxxxxxx', '+251xxxxxxxxxx'],
             'message' => 'Bulk test message'
         ]);
 
